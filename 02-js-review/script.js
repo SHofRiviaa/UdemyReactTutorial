@@ -135,6 +135,8 @@ const data = [
   },
 ];
 
+/*
+
 function getBooks() {
   return data;
 }
@@ -305,3 +307,18 @@ const booksAfterUpdate = booksAfterDelete.map((book) =>
   book.id === 1 ? { ...book, pages: 2000 } : book
 );
 booksAfterUpdate;
+*/
+//Asynchronous Javascript: Promises
+//fetch("https://jsonplaceholder.typicode.com/todos")
+// .then((res) => res.json())
+//  .then((data) => console.log(data));
+
+// Asychronous Javascript: async/await
+async function getTodos() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/todos");
+  const data = await res.json();
+  console.log(data);
+} // this function async returns a promise
+
+const todos = getTodos(); //to get the data, we have to use .then or another async function
+// but not common in react because we usually use for state management
