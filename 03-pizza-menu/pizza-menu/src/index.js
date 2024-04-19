@@ -49,13 +49,44 @@ const pizzaData = [
 function App() {
   return (
     <div>
-      <h1>Hello world</h1>
+      <Header />
+      <Menu />
+      <Footer />
+    </div>
+  );
+}
 
+function Header() {
+  return <h1>Tasty Pizza from Dune</h1>;
+}
+
+function Menu() {
+  return (
+    <div>
+      <h2>Our Menu</h2>
+      <Pizza />
       <Pizza />
       <Pizza />
       <Pizza />
     </div>
   );
+}
+
+function Footer() {
+  const hour = new Date().getHours();
+  console.log("hour", hour);
+  const openHour = 12;
+  const closeHour = 22;
+  const isOpen = hour >= openHour && hour <= closeHour;
+  console.log("isOpen", isOpen);
+
+  //if (hour >= openHour && hour <= closeHour) alert("We are open!");
+  //else alert("We are closed!");
+
+  return (
+    <footer>©{new Date().toLocaleTimeString()}Tasty Pizza from Dune</footer>
+  );
+  //return React.createElement("footer", null, "© 2024 Tasty Pizza from Dune");
 }
 
 // function name should start with capital letter and return a JSX element
