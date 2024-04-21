@@ -67,15 +67,48 @@ function Header() {
 }
 
 function Menu() {
+  const pizzas = pizzaData;
+  //const pizzas = [];
+  const numPizzas = pizzas.length;
+
   return (
     <main className="menu">
       <h2>Our Menu</h2>
+      {/*never have condition as number, always as boolean
+      {numPizzas && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+        */}
 
-      <ul className="pizzas">
-        {pizzaData.map((pizza) => (
-          <Pizza pizzaObj={pizza} key={pizza.name} />
-        ))}
-      </ul>
+      {/* conditional rendering with &&
+      numPizzas > 0 && (
+        <ul className="pizzas">
+          {pizzas.map((pizza) => (
+            <Pizza pizzaObj={pizza} key={pizza.name} />
+          ))}
+        </ul>
+      )*/}
+      {numPizzas > 0 ? (
+        <>
+          {/*<> is a react fragment*/}
+          <p>
+            Authentic Italian cuisine. We offer 6 creative dishes to choose
+            from. All from our stone oven.
+          </p>
+
+          <ul className="pizzas">
+            {pizzas.map((pizza) => (
+              <Pizza pizzaObj={pizza} key={pizza.name} />
+            ))}
+          </ul>
+        </>
+      ) : (
+        <p> Still working on menu!</p>
+      )}
+
       {/*
       <Pizza
         name="Pizza Spinaci"
@@ -96,16 +129,26 @@ function Menu() {
 
 // function name should start with capital letter and return a JSX element
 //img is from public folder automatically (no need to specify the path)
-function Pizza(props) {
-  console.log("props", props);
+//destructuring props: {pizzaObj} instead of props
+function Pizza({ pizzaObj }) {
+  console.log("props", pizzaObj);
+
+  //if (pizzaObj.soldOut) return null;
 
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
       <div>
-        <h2>{props.pizzaObj.name}</h2>
-        <p>{props.pizzaObj.ingredient}</p>
-        <span>{props.pizzaObj.price} $</span>
+        <h2>{pizzaObj.name}</h2>
+        <p>{pizzaObj.ingredients}</p>
+
+        {/* pizzaObj.soldOut ? (
+          <span>Sold Out</span>
+        ) : (
+          <span>{pizzaObj.price}</span>
+        ) */}
+
+        <span>{pizzaObj.soldOut ? "Sold Out" : pizzaObj.price} </span>
       </div>
     </li>
   );
@@ -114,7 +157,7 @@ function Pizza(props) {
 function Footer() {
   const hour = new Date().getHours();
   console.log("hour", hour);
-  const openHour = 12;
+  const openHour = 10;
   const closeHour = 22;
   const isOpen = hour >= openHour && hour <= closeHour;
   console.log("isOpen", isOpen);
@@ -122,12 +165,48 @@ function Footer() {
   //if (hour >= openHour && hour <= closeHour) alert("We are open!");
   //else alert("We are closed!");
 
+  //better to render entire components conditionally, not just parts of jsx
+  if (!isOpen)
+    return (
+      <p>
+        Come between {openHour}:00 and {closeHour}:00 for an excellent service!!
+      </p>
+    );
+
   return (
     <footer className="footer">
-      ©{new Date().toLocaleTimeString()}Tasty Pizza from Dune
+      {/* conditional rendering with &&
+      isOpen && (
+        <div>
+          <p>
+            <p>We are open until {closeHour}:00, come visit or order online!</p>
+          </p>
+          <button className="btn">Order</button>
+        </div>
+      )
+      {!isOpen && <p>We are closed!</p>}*/}
+      {isOpen ? (
+        <Order closeHour={closeHour} openHour={openHour} />
+      ) : (
+        <p>
+          Come between {openHour}:00 and {closeHour}:00 for an excellent
+          service!
+        </p>
+      )}
     </footer>
   );
   //return React.createElement("footer", null, "© 2024 Tasty Pizza from Dune");
+}
+
+function Order({ closeHour, openHour }) {
+  return (
+    <div className="order">
+      <p>
+        <p>We are open until {closeHour}:00, come visit or order online!</p>
+      </p>
+      <button className="btn">Order</button>
+    </div>
+  );
 }
 
 // react v18
