@@ -7,6 +7,15 @@ const messages = [
 ];
 
 export default function App() {
+  return (
+    <div>
+      <Steps />
+      <Steps />
+    </div>
+  );
+}
+
+function Steps() {
   // Step 1 create a state variable to keep track of the current step (steps for state variable and setStep for the function to update the state variable)
   // can use useState only in top level of the component, not inside any function or condition or loop etc.
   // useState is a hook that lets you add state to your function components
@@ -25,7 +34,7 @@ export default function App() {
 
   // Step 2 is using the state variable to display the current step
   return (
-    <>
+    <div>
       <button className="close" onClick={() => setIsOpen((is) => !is)}>
         &times;
       </button>
@@ -55,6 +64,6 @@ export default function App() {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 }
